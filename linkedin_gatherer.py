@@ -51,20 +51,23 @@ def get_people(search,p):
     print "[Info] Found %d people" % len(people)
     if len(people) > 0:
         for pl in people:
-            firstname = pl['person']['firstName'].encode('utf-8')
-            lastname = pl['person']['lastName'].encode('utf-8')
-            #if len(lastname) < 3:
-                #find = raw_input("Find lastname for %s %s? (Y/n)" % (firstname,lastname))
-                #if find == "Y":
-                    #lastname = find_lastname(firstname,lastname,company)
-            if not firstname=="":
-                data = [
-                    pl['person']['id'],
-                    firstname,
-                    lastname,
-                    company
-                ]
-                writer.writerow(data)
+            try:
+                firstname = pl['person']['firstName'].encode('utf-8')
+                lastname = pl['person']['lastName'].encode('utf-8')
+                #if len(lastname) < 3:
+                    #find = raw_input("Find lastname for %s %s? (Y/n)" % (firstname,lastname))
+                    #if find == "Y":
+                        #lastname = find_lastname(firstname,lastname,company)
+                if not firstname=="":
+                    data = [
+                        pl['person']['id'],
+                        firstname,
+                        lastname,
+                        company
+                    ]
+                    writer.writerow(data)
+            except:
+                    print "Ignoring 1 profile - out of network"
 
 def find_lastname(f,l,c):
     searchstring = yahoo_url+"site%slinkedin.com+%s+%s+%s" % ("%3A",f,l,c)
